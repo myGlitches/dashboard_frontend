@@ -40,9 +40,3 @@ cd dashboard-frontend
 
 4. **Student Deletion:** Click the delete icon to view the student details in the modal. Reconfirm your deletion and click on remove.
 
-5. ***Checkout:*** When you're ready to purchase, proceed to the checkout page. Fill in the necessary information and click the "Place Order" button.
-
-6. ***Payment:*** This is a generic project, so it doesn't handle real payments. You can simulate the payment process based on your needs.
-
-7. ***Order Confirmation:*** After completing the checkout process, you will receive an order confirmation.
-
