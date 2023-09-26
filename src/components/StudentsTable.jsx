@@ -27,7 +27,7 @@ function StudentsTable({ getUsers, users }) {
                         <tr key={user._id}>
                                 <td>{index + 1}</td>
                                 <td>{user.name}</td>
-                                <td>{user.class}th</td>
+                                <td>{user.class}{user.class === 1 ? "st" : (user.class === 2 ? "nd" : (user.class === 3 ? "rd" : "th")) }</td>
                             <td>{user.score <=30 ?
                             
                             <div className="w-[55px] h-5 px-2 py-0.5 bg-red-500 rounded-2xl justify-center items-center gap-2.5 inline-flex">

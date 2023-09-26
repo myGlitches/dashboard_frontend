@@ -134,7 +134,9 @@ export default function Modal({ getUsers }) {
                   <div className="flex-column">
                     <input
                     type="number"
-                    name="score"
+                      name="score"
+                      min="0"
+                      max="100"
                     value={studentData.score}
                     onChange={handleChange}
                     className="w-[502px] my-4 shadow appearance-none border rounded py-2 px-1 text-black" />                            

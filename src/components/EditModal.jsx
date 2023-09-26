@@ -100,35 +100,48 @@ function EditModal({
                   <label htmlFor="student_name" className="text-gray-500 text-xs font-medium font-['Montserrat'] uppercase leading-none tracking-tight">
                     STUDENT NAME*
                   </label>
+                  <div className="flex-column">
                   <input
                     type="text"
                     name="name"
                     value={userEdited.name}
                     onChange={handleChange}
                     className=" w-[502px] my-4 shadow appearance-none border rounded py-2 px-1 text-black" />
-                    
-                                  
+                   {userEdited.name.length === 0 ? <label className="text-red-500 text-xs font-normal font-['Montserrat'] leading-none">Error: Name field cannot be left blank</label> : "" } 
+                  </div>             
+                  
                   <label htmlFor="class" className="text-gray-500 text-xs font-medium font-['Montserrat'] uppercase leading-none tracking-tight">
                     CLASS*
                   </label>
-                  <input
+
+                  <div className="flex-column">
+                    <input
                     type="number"
                     name="class"
+                    min="1"
+                    max="12"
                     value={userEdited.class}
                     onChange={handleChange}
                     className="w-[502px] my-4 shadow appearance-none border rounded py-2 px-1 text-black" />              
-                
-                                  
+                  {userEdited.class < 1 || userEdited.class > 12 ? <label className="text-red-500 text-xs font-normal font-['Montserrat'] leading-none">Error: Please input values between 1 & 12</label> : "" }
+                    
+                  </div>
+                  
                   <label htmlFor="score" className="text-gray-500 text-xs font-medium font-['Montserrat'] uppercase leading-none tracking-tight">
                     SCORE*
                   </label>
-                  <input
+                  <div className="flex-column">
+                    <input
                     type="number"
                     name="score"
+                    min="0"
+                    max="100"
                     value={userEdited.score}
                     onChange={handleChange}
-                    className="w-[502px] my-4 shadow appearance-none border rounded py-2 px-1 text-black" />                            
+                    className="w-[502px] my-4 shadow appearance-none border rounded py-2 px-1 text-black" /> 
+                  {userEdited.score < 0 || userEdited.score > 100 ? <label className="text-red-500 text-xs font-normal leading-none">Error: Please ensure score is between 0 & 100</label> : "" }
                     
+                  </div>
                     
                   <div className="flex-column">
                     <label
