@@ -1,13 +1,13 @@
 
-import dashboardIcon from '../assets/dashboard.svg'
-import coursesIcon from '../assets/book.svg'
-import studentsIcon from '../assets/stand-users.svg'
-import examsIcon from '../assets/exam.svg'
-import resultsIcon from '../assets/result.svg'
-import noticeIcon from '../assets/black-board.svg'
-import liveClassIcon from '../assets/live-streaming.svg'
-import notifIcon from '../assets/notification.svg'
-import profileImg from '../assets/profileImg.jpg'
+import dashboardIcon from '../../assets/dashboard.svg'
+import coursesIcon from '../../assets/book.svg'
+import studentsIcon from '../../assets/stand-users.svg'
+import examsIcon from '../../assets/exam.svg'
+import resultsIcon from '../../assets/result.svg'
+import noticeIcon from '../../assets/black-board.svg'
+import liveClassIcon from '../../assets/live-streaming.svg'
+import notifIcon from '../../assets/notification.svg'
+import profileImg from '../../assets/profileImg.jpg'
 
 function Sidebar() {
   return (
@@ -52,12 +52,12 @@ function Sidebar() {
         </div>
       </div>
       </div>
-      <div className="viewProfile p-5 flex flex-col">
+      <div className="viewProfile p-5 flex flex-col w-full">
         <img className="w-12 h-12 rounded-full" src={profileImg} />
         <div className="mt-3 text-neutral-800 text-sm font-medium font-['Montserrat'] leading-[18px]">Andy Samberg</div>
         <div className="mt-1 text-gray-500 text-xs font-normal font-['Montserrat'] leading-none">andy.samberg@gmail.com</div>
-        <div className="mt-5 w-60 h-[30px] px-2.5 py-1 rounded-[10px] shadow border border-sky-500 justify-center items-center gap-2.5 inline-flex">
-          <div className="text-center text-sky-500 text-xs font-semibold font-['Montserrat'] uppercase leading-none tracking-wide">view profile</div>
+        <div className="mt-5 h-[30px] px-2.5 py-1 rounded-[10px] shadow border border-sky-500 justify-center items-center gap-2.5 inline-flex w-full">
+          <div className="text-center text-sky-500 text-xs font-semibold w-full uppercase">view profile</div>
         </div>
       </div>
     </div>

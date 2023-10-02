@@ -1,74 +1,78 @@
 import React from "react";
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import axios from "axios"
-import editIcon from '../assets/edit_icon.jpg'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-function EditModal({
-    getUsers,
-    userId,
-    userName,
-    userClass,
-    userScore,
-    userGrade
-}) {
-    const [showModal, setShowModal] = useState(false);
-    
-    const [userEdited, setUserEdited] = useState({
-    class: userClass,
-    grade: userGrade,
-    name: userName,
+export default function Modal({ getUsers }) {
+  const [showModal, setShowModal] = useState(false);
+
+  const [studentData, setstudentData] = useState({
+    class: 1,
+    grade: "",
+    name: "",
     is_passed: false,
-    score: userScore,
+    score: 0,
   });
 
-    
-    const handleChange = (e) => {
-        console.log('handleChange called with', e.target.name, e.target.value);
-        const { name, value } = e.target;
-        setUserEdited({
-            ...userEdited,
-            [name]: value
-        });
-    };
-    
+  // Handle Change
+  const handleChange = (e) => {
+  console.log('handleChange called with', e.target.name, e.target.value);
+  const { name, value } = e.target;
+  setstudentData({
+    ...studentData,
+    [name]: value
+  });
+};
 
   // Handle Submit
   const handleSubmit = async (e) => {
-      e.preventDefault();
-      const id = userId
-      console.log(userId)
-      try {
-        
-    const userNewEdit = {
-      class: userEdited.class,
-      grade: userEdited.grade,
-      name: userEdited.name,
-      is_passed: userEdited.is_passed,
-      score: userEdited.score
+    e.preventDefault();
+    try {
+      const userData = {
+      class: studentData.class,
+      grade: studentData.grade,
+      name: studentData.name,
+      is_passed: studentData.is_passed,
+      score: studentData.score
     }
-          
-      const response = await axios.put(`https://studentdashboard.up.railway.app/students/${id}`, userNewEdit)
+      const response = await axios.post("https://studentdashboard.up.railway.app/students", userData)
+      console.log(userData)
       console.log(response.data)
       getUsers()
       setShowModal(false)
+      toast.success('Success Notification !', {
+            position: toast.POSITION.TOP_RIGHT
+        });
+      setstudentData(({
+                      class: 1,
+                      grade: "",
+                      name: "",
+                      is_passed: false,
+                      score: 0,
+                    }))
+      
     } catch (error) {
-     console.log(error) 
+      console.log(error.request.status) 
+      const statusCode = error.request.status
+      if (statusCode === 500) {
+        const errorMessage = "Please ensure all fields are filled!!"
+        toast.error(`${errorMessage}`, {
+          position: toast.POSITION.TOP_RIGHT
+        });
+      }
     }
       
-    };
-    
-
-    
-
+  };
 
 
   return (
     <>
-          <div onClick={() => setShowModal(true)}>
-              <div className="justify-start items-center gap-1 flex">
-          <div className=" relative font-bold font-montserrat text-black">
-            <img src={ editIcon } className="hover:cursor-pointer" height="auto" width="24px" alt="" />
-          </div>
+      <ToastContainer />
+          <div onClick={() => setShowModal(true)} className="hover:cursor-pointer px-8 py-2 bg-sky-500 rounded-[10px] shadow justify-center items-center gap-2 inline-flex">
+              <div className="justify-start items-center gap-1 flex ">
+                  <div className=" relative font-bold font-montserrat text-white text-2xl">+</div>
+                  <div className="text-center font-bold font-montserrat text-white text-xl uppercase">add</div>
               </div>
           </div>
           
@@ -84,7 +88,7 @@ function EditModal({
                 {/*header*/}
                 <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                   <h3 className="text-2xl font-bold">
-                    Edit Student
+                    Add Student
                   </h3>
                   <button
                     className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
@@ -96,51 +100,51 @@ function EditModal({
                   </button>
                 </div>
                 {/*body*/}
-                <div className="relative p-6 flex-auto">
-                  <label htmlFor="student_name" className="text-gray-500 text-xs font-medium font-['Montserrat'] uppercase leading-none tracking-tight">
+                <div className="relative p-6 flex-auto w-full min-h-[420px]">
+                  <label htmlFor="student_name" className="text-gray-500 text-xs font-medium uppercase">
                     STUDENT NAME*
                   </label>
-                  <div className="flex-column">
-                  <input
+                  <div className="flex-column w-full max-w-[502px]">
+                    <input
                     type="text"
                     name="name"
-                    value={userEdited.name}
+                    value={studentData.name}
                     onChange={handleChange}
-                    className=" w-[502px] my-4 shadow appearance-none border rounded py-2 px-1 text-black" />
-                   {userEdited.name.length === 0 ? <label className="text-red-500 text-xs font-normal font-['Montserrat'] leading-none">Error: Name field cannot be left blank</label> : "" } 
-                  </div>             
-                  
-                  <label htmlFor="class" className="text-gray-500 text-xs font-medium font-['Montserrat'] uppercase leading-none tracking-tight">
+                    className="w-full min-w-[502px] max-w-[502px] mt-4 shadow appearance-none border rounded py-2 px-1 text-black" />
+                    {/* Name Length Validation */}
+                  {studentData.name.length === 0 ? <label className="text-red-500 text-xs font-medium">Error: Name field cannot be left blank</label> : "" }
+                  </div>
+                    
+                                  
+                  <label htmlFor="class" className="text-gray-500 text-xs font-medium uppercase">
                     CLASS*
                   </label>
-
-                  <div className="flex-column">
+                  <div className="flex-column w-full max-w-[502px]">
                     <input
                     type="number"
                     name="class"
-                    min="1"
                     max="12"
-                    value={userEdited.class}
+                    min="1"
+                    value={studentData.class}
                     onChange={handleChange}
-                    className="w-[502px] my-4 shadow appearance-none border rounded py-2 px-1 text-black" />              
-                  {userEdited.class < 1 || userEdited.class > 12 ? <label className="text-red-500 text-xs font-normal font-['Montserrat'] leading-none">Error: Please input values between 1 & 12</label> : "" }
-                    
+                    className=" w-full min-w-[502px] max-w-[502px] my-4 shadow appearance-none border rounded py-2 px-1 text-black" />              
+                    {/* Class Validation */}
+                  {studentData.class < 1 || studentData.class > 12 ? <label className="text-red-500 text-xs font-medium">Error: Please input values between 1 & 12</label> : "" }
                   </div>
-                  
+                                  
                   <label htmlFor="score" className="text-gray-500 text-xs font-medium font-['Montserrat'] uppercase leading-none tracking-tight">
                     SCORE*
                   </label>
-                  <div className="flex-column">
+                  <div className="flex-column w-full max-w-[502px]">
                     <input
                     type="number"
-                    name="score"
-                    min="0"
-                    max="100"
-                    value={userEdited.score}
+                      name="score"
+                      min="0"
+                      max="100"
+                    value={studentData.score}
                     onChange={handleChange}
-                    className="w-[502px] my-4 shadow appearance-none border rounded py-2 px-1 text-black" /> 
-                  {userEdited.score < 0 || userEdited.score > 100 ? <label className="text-red-500 text-xs font-normal leading-none">Error: Please ensure score is between 0 & 100</label> : "" }
-                    
+                    className=" w-full min-w-[502px] max-w-[502px] my-4 shadow appearance-none border rounded py-2 px-1 text-black" />                            
+                    {studentData.score < 0 || studentData.score > 100 ? <label className="text-red-500 text-xs font-medium">Error: Please ensure score is between 0 & 100</label> : "" }
                   </div>
                     
                   <div className="flex-column">
@@ -149,9 +153,9 @@ function EditModal({
                       GRADE
                     </label>
                     <div>
-                       {userEdited.score >= 0 && userEdited.score <= 30 ? userEdited.grade = "Poor" :
-                        (userEdited.score >= 31 && userEdited.score <= 75 ? userEdited.grade = "Average"
-                          : userEdited.grade = "Excellent")
+                      {studentData.score >= 0 && studentData.score <= 30 ? studentData.grade = "Poor" :
+                        (studentData.score >= 31 && studentData.score <= 75 ? studentData.grade = "Average"
+                          : studentData.grade = "Excellent")
                         }
                     </div>
                   </div>
@@ -162,9 +166,9 @@ function EditModal({
                     RESULT
                   </label>
                     <div>
-                      {userEdited.score === 0 ?
+                      {studentData.score === 0 ?
                         "" :
-                        userEdited.score >= 30 ? 
+                        studentData.score >= 30 ? 
                         (
                       <div className="w-[62px] h-5 px-2 py-0.5 bg-green-500 rounded-2xl justify-center items-center gap-2.5 inline-flex">
                                 <div className="text-center text-white text-xs font-semibold font-['Montserrat'] leading-none tracking-tight">
@@ -190,7 +194,7 @@ function EditModal({
                 <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                   
                 <div className="w-[98px] h-[38px] px-4 py-1.5 rounded-[10px] shadow border border-sky-500 justify-center items-center gap-2.5 inline-flex">
-                    <div onClick={() => setShowModal(false)} className="text-center text-sky-500 text-sm font-semibold font-['Montserrat'] uppercase leading-relaxed tracking-wider">
+                    <div onClick={() => setShowModal(false)} className=" hover:cursor-pointer text-center text-sky-500 text-sm font-semibold font-['Montserrat'] uppercase leading-relaxed tracking-wider">
                       CANCEL
                     </div>
                 </div>
@@ -198,7 +202,7 @@ function EditModal({
                     <div className="w-[110px] h-[38px] ms-5 px-4 py-1.5 bg-sky-500 rounded-[10px] shadow justify-center items-center gap-2.5 inline-flex">
                     <button type="submit" onClick={() => {
                       handleSubmit()
-                        }} className="text-center text-white text-sm font-semibold font-['Montserrat'] uppercase leading-relaxed tracking-wider">
+                        }} className=" hover:cursor-pointer text-center text-white text-sm font-semibold font-['Montserrat'] uppercase leading-relaxed tracking-wider">
                             CONFIRM
                         </button>
                     </div>
@@ -212,5 +216,3 @@ function EditModal({
     </>
   );
 }
-
-export default EditModal

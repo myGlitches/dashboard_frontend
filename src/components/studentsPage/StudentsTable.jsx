@@ -24,7 +24,7 @@ function StudentsTable({ getUsers, users }) {
                     </tr>
                     {users.map((user, index) => {
                         return (
-                        <tr key={user._id}>
+                        <tr className="eachRow" key={user._id}>
                                 <td>{index + 1}</td>
                                 <td>{user.name}</td>
                                 <td>{user.class}{user.class === 1 ? "st" : (user.class === 2 ? "nd" : (user.class === 3 ? "rd" : "th")) }</td>

@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from 'react'
 import axios from "axios"
-import deleteIcon from '../assets/delete_icon.jpg'
+import deleteIcon from '../../assets/delete_icon.jpg'
 
 
 function DeleteModal({

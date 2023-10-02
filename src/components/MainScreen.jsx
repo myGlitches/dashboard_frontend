@@ -1,6 +1,6 @@
 import React from 'react'
-import AddModal from "./AddModal"
-import StudentsTable from './StudentsTable'
+import AddModal from "./studentsPage/AddModal"
+import StudentsTable from './studentsPage/StudentsTable'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 

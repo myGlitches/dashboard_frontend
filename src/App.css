@@ -47,3 +47,15 @@ body {
     flex-direction: column;
     height: 90vh;
 }
+
+.editBtn, .deleteBtn {
+    opacity: 0;
+}
+
+.eachRow:hover > td > .editBtn{
+    opacity: 1;
+}
+
+.eachRow:hover > td > .deleteBtn    {
+    opacity: 1;
+}
